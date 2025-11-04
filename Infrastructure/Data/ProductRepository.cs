@@ -42,12 +42,14 @@ public class ProductRepository (StoreContext context) : IProductRepository
             _ => query.OrderBy(p => p.Name)
         };
 
-        return await context.Products.ToListAsync();
+        return await query.ToListAsync();
     }
 
     public async Task<IReadOnlyList<string>> GetProductTypesAsync()
     {
-        return await context.Products.Select(p => p.Type).Distinct().ToListAsync();
+        return await context.Products.Select(p => p.Type)
+            .Distinct()
+            .ToListAsync();
     }
 
     public bool IsProductExist(Guid id)
