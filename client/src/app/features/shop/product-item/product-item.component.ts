@@ -19,7 +19,8 @@ import { RouterLink } from '@angular/router';
     RouterLink
   ],
   templateUrl: './product-item.component.html',
-  styleUrl: './product-item.component.scss'
+  styleUrl: './product-item.component.scss',
+  standalone: true
 })
 export class ProductItemComponent {
  @Input() product?: Product;

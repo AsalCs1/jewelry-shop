@@ -16,7 +16,8 @@ import { FormsModule } from '@angular/forms';
     FormsModule
   ],
   templateUrl: './filters-dialog.component.html',
-  styleUrl: './filters-dialog.component.scss'
+  styleUrl: './filters-dialog.component.scss',
+  standalone: true
 })
 export class FiltersDialogComponent {
   private dialogRef = inject(MatDialogRef<FiltersDialogComponent>);

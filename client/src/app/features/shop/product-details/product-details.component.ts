@@ -22,7 +22,8 @@ import { MatInput } from '@angular/material/input';
     MatInput
   ],
   templateUrl: './product-details.component.html',
-  styleUrl: './product-details.component.scss'
+  styleUrl: './product-details.component.scss',
+  standalone: true
 })
 export class ProductDetailsComponent implements OnInit {
   private shopService = inject(ShopService);
@@ -36,7 +37,7 @@ export class ProductDetailsComponent implements OnInit {
   loadProduct() {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if (!id) return;
-    this.shopService.getProduct(+id).subscribe({
+    this.shopService.getProduct(id).subscribe({
       next: product => this.product = product,
       error: error => console.log(error)
     });
