@@ -25,13 +25,13 @@ public class BuggyController : BaseApiController
         return NotFound();
     }
 
-    [HttpPost("internalerror")]
+    [HttpGet("internalerror")]
     public IActionResult GetInternalError()
     {
         throw new Exception("this is a test exception");
     }
 
-    [HttpGet("validationerror")]
+    [HttpPost("validationerror")]
     public IActionResult GetValidationError(CreateProductDto product)
     {
         return Ok();
