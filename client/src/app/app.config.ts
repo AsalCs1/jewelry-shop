@@ -1,4 +1,8 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import {
+  APP_INITIALIZER,
+  ApplicationConfig,
+  provideZoneChangeDetection,
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -7,6 +11,18 @@ import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { errorInterceptor } from './core/interceptors/error.interceptor';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { loadingInterceptor } from './core/interceptors/loading.interceptor';
+import { InitService } from './core/services/init.service';
+import { lastValueFrom } from 'rxjs';
+
+function initializeApp(initService: InitService) {
+  return () =>
+    lastValueFrom(initService.init()).finally(() => {
+      const splash = document.getElementById('initial-splash');
+      if (splash) {
+        splash.remove();
+      }
+    });
+}
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,8 +31,15 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideHttpClient(withInterceptors([errorInterceptor, loadingInterceptor])),
     {
-      provide: MAT_DIALOG_DEFAULT_OPTIONS,
-      useValue: { autoFocus: 'dialog', restoreFocus: true }
-    }
-  ]
+      provide: APP_INITIALIZER,
+      useFactory: initializeApp,
+      multi: true,
+      deps: [InitService],
+    },
+
+    // {
+    //   provide: MAT_DIALOG_DEFAULT_OPTIONS,
+    //   useValue: { autoFocus: 'dialog', restoreFocus: true },
+    // },
+  ],
 };
